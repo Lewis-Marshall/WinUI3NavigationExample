@@ -47,11 +47,11 @@ namespace WinUI3NavigationExample
         {
             m_window = new MainWindow();
 
-            if (AppWindowTitleBar.IsCustomizationSupported())
+            if (AppWindowTitleBar.IsCustomizationSupported()) //Run only on Windows 11
             {
-                m_window.SizeChanged += SizeChanged;
-
-                appWindow = GetAppWindow(m_window);
+                m_window.SizeChanged += SizeChanged; //Register handler for setting draggable rects
+                
+                appWindow = GetAppWindow(m_window); //Set ExtendsContentIntoTitleBar for the AppWindow not the window
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                 appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -61,7 +61,8 @@ namespace WinUI3NavigationExample
 
         private void SizeChanged(object sender, WindowSizeChangedEventArgs args)
         {
-            Windows.Graphics.RectInt32[] rects = new Windows.Graphics.RectInt32[] { new Windows.Graphics.RectInt32(48, 0, (int)args.Size.Width - 48, 48) };
+            //Update the title bar draggable region. We need to indent from the left both for the nav back button and to avoid the system menu
+            Windows.Graphics.RectInt32[] rects = new Windows.Graphics.RectInt32[] { new Windows.Graphics.RectInt32(48, 0, (int)args.Size.Width - 48, 48) }; 
             appWindow.TitleBar.SetDragRectangles(rects);
         }
 
