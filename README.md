@@ -5,7 +5,7 @@
 Example of a WinUI 3 NavigationView application using the Windows 11 styles. 
 On Windows 11 this should look identical to a comparable WinUI 2 UWP app, other than the omission of the Mica material. 
 
-![Screenshot](docs/images/img.jpg)
+![Screenshot](docs/images/img1.png)
 
 ## How It Works
 ### Style
