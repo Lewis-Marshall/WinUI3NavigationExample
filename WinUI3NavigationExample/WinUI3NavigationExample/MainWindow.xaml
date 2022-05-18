@@ -9,7 +9,6 @@
 
     <Grid>
         <Border
-            Background="{ThemeResource SystemChromeMediumColor}"
             Canvas.ZIndex="0"
             IsHitTestVisible="False">
             <Grid
