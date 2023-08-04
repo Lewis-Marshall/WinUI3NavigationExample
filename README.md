@@ -5,47 +5,62 @@
 Example of a WinUI 3 NavigationView application using the Windows 11 styles. 
 On Windows 11 this should look identical to a comparable WinUI 2 UWP app. 
 
+Updated to WindowsAppSDK 1.3 where Mica style and a custom TitleBar are now very easy to use.
+If you need to use an older version check the WindowsAppSDK-1.1 branch
+
 ![Screenshot](docs/images/img1.png)
 
 ## How It Works
-### Style
-In App.xaml.cs we get the AppWindow for the main window via Win32Interop. 
-We then modify the AppWindow instead of the main window or CoreWindow, like in UWP.
-SetTitleBar appears to be bugged so we set the title bar draggable region instead.
-```c#
-using Microsoft.UI.Windowing;
-```
-```c#
-if (AppWindowTitleBar.IsCustomizationSupported()) //Run only on Windows 11
-{
-  m_window.SizeChanged += SizeChanged; //Register handler for setting draggable rects
 
-  appWindow = GetAppWindow(m_window); //Set ExtendsContentIntoTitleBar for the AppWindow not the window
-  appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-  appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-  appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-}
-```
+> [!IMPORTANT]
+> Updated to WindowsAppSDK 1.3 where Mica style and a custom TitleBar are now very easy to use.
+> If you need to use an older version check the WindowsAppSDK-1.1 branch
+
+### Style
+As of WindowsAppSDK 1.3 Mica styles are much easier. We can now use SystemBackdrop to enable Mica. 
+The SetTitleBar method has also been fixed so that we no longer need to use WinRT Interop for our custom title bar.
+
+#### Mica
+[Mica Documentation](https://learn.microsoft.com/en-us/windows/apps/design/style/mica#how-to-use-mica)
+
+Mica can be enabled by using SystemBackdrop in either the c# or xaml of the MainWindow. Both have been used in this example.
+
+In MainWindow.xaml.cs
 ```c#
-private AppWindow GetAppWindow(Window window)
+public MainWindow()
 {
-    IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-    WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-    return AppWindow.GetFromWindowId(windowId);
-}
+  ...
+  SystemBackdrop = new MicaBackdrop()
+      { Kind = MicaKind.Base };
 ```
+Or in MainWindow.xaml
+```xaml
+<Window.SystemBackdrop>
+    <MicaBackdrop Kind="Base"/>
+</Window.SystemBackdrop>
+```
+
+#### Custom TitleBar
+[Custom TitleBar Documentation](https://learn.microsoft.com/en-us/windows/apps/develop/title-bar?tabs=winui3)
+
 ```c#
-private void SizeChanged(object sender, WindowSizeChangedEventArgs args)
+public MainWindow()
 {
-    //Update the title bar draggable region. We need to indent from the left both for the nav back button and to avoid the system menu
-    Windows.Graphics.RectInt32[] rects = new Windows.Graphics.RectInt32[] { new Windows.Graphics.RectInt32(48, 0, (int)args.Size.Width - 48, 48) }; 
-    appWindow.TitleBar.SetDragRectangles(rects);
+  ...
+
+  ExtendsContentIntoTitleBar = true;
+  SetTitleBar(AppTitleBar);
 }
 ```
 
 We can then create space for a title bar in App.xaml
 ```xaml
 <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+```
+And make the title bar transparent
+```xaml
+<SolidColorBrush x:Key="WindowCaptionBackground">Transparent</SolidColorBrush>
+<SolidColorBrush x:Key="WindowCaptionBackgroundDisabled">Transparent</SolidColorBrush>
 ```
 
 ### Navigation
