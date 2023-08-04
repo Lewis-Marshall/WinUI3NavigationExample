@@ -7,34 +7,37 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="Base"/>
+    </Window.SystemBackdrop>
+
+    
     <Grid>
-        <Border
-            Canvas.ZIndex="0"
-            IsHitTestVisible="False">
-            <Grid
-                Height="48"
-                Margin="48,0,0,0"
-                VerticalAlignment="Top"
-                Padding="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Image
-                    x:Name="AppFontIcon"
-                    Width="16"
-                    Height="16"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Source="/Assets/Square44x44Logo.png" />
-                <TextBlock
-                    Margin="12,0,0,0"
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind GetAppTitleFromSystem()}"/>
-            </Grid>
-        </Border>
+        <Grid
+            x:Name="AppTitleBar"
+            Height="48"
+            Margin="48,0,0,0"
+            VerticalAlignment="Top"
+            Padding="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image
+                x:Name="AppFontIcon"
+                Width="16"
+                Height="16"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Source="/Assets/Square44x44Logo.png" />
+            <TextBlock
+                Margin="12,0,0,0"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind GetAppTitleFromSystem()}"/>
+        </Grid>
+
 
         <NavigationView
             x:Name="NavigationViewControl"

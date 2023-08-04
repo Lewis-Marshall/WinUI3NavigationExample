@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -33,6 +34,12 @@ namespace WinUI3NavigationExample
                        null,
                        new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo()
                        );
+
+            SystemBackdrop = new MicaBackdrop()
+                { Kind = MicaKind.Base };
+
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(AppTitleBar);
         }
 
         public string GetAppTitleFromSystem()
